@@ -39,7 +39,22 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/apollo',
   ],
+  apollo: {
+    // chars:{
+    //   query:characters {
+    //     results {
+    //       name
+    //     }
+    //   }
+    // },
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://rickandmortyapi.com/graphql',
+      }
+    }
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},

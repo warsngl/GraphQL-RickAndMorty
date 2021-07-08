@@ -5,6 +5,25 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
+const chars=gql`
+  query chars($page: Int!, $filter: FilterCharacter!) {
+    characters(page: $page, filter: $filter) {
+      info {
+        count
+        pages
+      }
+      results {
+        id
+        name
+        image
+        species
+        status
+        type
+      }
+    }
+  }
+`
 export default { 
   data:()=>({
     chars:[],
@@ -16,16 +35,15 @@ export default {
   methods:{
     async fetchAll(){
       this.isLoading=true
-      try{
-        await this.$axios.get('https://rickandmortyapi.com/api/character')
-        .then(r=>{
-          this.chars=r.data.results})
-      }catch{
-        console.log(e);
-      }finally{
-        this.isLoading=false
-      }
-      //const chars=await gql
+      // try{
+      //   await this.$axios.get('https://rickandmortyapi.com/api/character')
+      //   .then(r=>{
+      //     this.chars=r.data.results})
+      // }catch(e){
+      //   console.log(e);
+      // }finally{
+      //   this.isLoading=false
+      // }
     }
   }
 }

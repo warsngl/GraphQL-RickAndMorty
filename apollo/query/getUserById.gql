@@ -1,0 +1,8 @@
+query characters($id: ID!) {
+  character(id: $id) {
+    results{
+      id
+      name
+    }
+ }
+}

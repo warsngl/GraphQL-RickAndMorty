@@ -1,54 +1,53 @@
 <template lang='pug'>
-.w-full.flex.flex-wrap
-  TheLoading(v-if='isLoading')
-  TheCard(v-else v-for='c,idx in chars' :key='c.id' :c='c')
+.w-screen.h-screen.p-0.bg-gray-200(class='sm:p-1 lg:py-4 lg:px-2 xl:py-4 xl:px-4')
+  button(class='button--green' :disabled='!characters' @click.stop='showAll') {{buttonText}}
+  ul.absolute.z-10.overflow-scroll.overflow-x-hidden(v-if='isExpanded' class='bg-purple-200 rounded shadow w-64')
+    li.py-2(v-for='character in characters.results' :key='character.id' class='rounded text-center')
+      nuxt-link(:to='character.id.toString()' class='hover:font-bold') {{character.name}}
+  .flex-grow.bg-white
+    nuxt-child
 </template>
 
 <script>
+import characters from '@/apollo/query/characters'
+
 import gql from 'graphql-tag'
-const chars=gql`
-  query chars($page: Int!, $filter: FilterCharacter!) {
-    characters(page: $page, filter: $filter) {
-      info {
-        count
-        pages
-      }
-      results {
-        id
-        name
-        image
-        species
-        status
-        type
-      }
-    }
-  }
-`
 export default { 
   data:()=>({
-    chars:[],
     isLoading:false,
+    character:{},
+    isExpanded:false,
   }),
-  async mounted(){
-    await this.fetchAll()
+  apollo:{
+    characters: {
+      query: characters
+    },
   },
   methods:{
-    async fetchAll(){
-      this.isLoading=true
-      // try{
-      //   await this.$axios.get('https://rickandmortyapi.com/api/character')
-      //   .then(r=>{
-      //     this.chars=r.data.results})
-      // }catch(e){
-      //   console.log(e);
-      // }finally{
-      //   this.isLoading=false
-      // }
+    getAll(){
+      this.$apollo.query({query: characters}).then(data=>{
+        this.characters=data
+      })
+    },
+    getChar(){
+      this.$apollo.query({query:character}).then(data=>{
+        this.character=data
+      })
+    },
+    showAll(){
+      this.isExpanded=!this.isExpanded
+    }
+  },
+  computed:{
+    buttonText(){
+      return this.isExpanded?'Close':'Show'
     }
   }
 }
 </script>
 
 <style>
-
+ul{
+  height: 75%;
+}
 </style>

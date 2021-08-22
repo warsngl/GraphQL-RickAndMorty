@@ -1,4 +1,4 @@
-query characterQuery($id: ID!) {
+query character($id: ID!) {
   character(id: $id) {
     id
     name

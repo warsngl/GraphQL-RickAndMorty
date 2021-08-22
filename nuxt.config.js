@@ -7,14 +7,16 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'GraphQL',
+    title: 'RickandMortybyGraphQL',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel:"preconnect", href:"https://fonts.gstatic.com" },
+      { href:"https://fonts.googleapis.com/css2?family=Itim&display=swap", rel:"stylesheet"},
     ]
   },
 
@@ -32,6 +34,7 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
+    '@nuxtjs/apollo',
     '@nuxtjs/tailwindcss',
   ],
 
@@ -39,16 +42,9 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/apollo',
+    
   ],
   apollo: {
-    // chars:{
-    //   query:characters {
-    //     results {
-    //       name
-    //     }
-    //   }
-    // },
     clientConfigs: {
       default: {
         httpEndpoint: 'https://rickandmortyapi.com/graphql',
